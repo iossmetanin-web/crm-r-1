@@ -41,7 +41,7 @@ export default function LoginPage() {
       } = await supabase.auth.getSession();
 
       if (session) {
-        await ensureUserSynced(session.user);
+        void ensureUserSynced(session.user);
         if (mounted) {
           router.replace("/dashboard");
         }
@@ -52,9 +52,9 @@ export default function LoginPage() {
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (event, session) => {
+    } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "SIGNED_IN" && session) {
-        await ensureUserSynced(session.user);
+        void ensureUserSynced(session.user);
         router.replace("/dashboard");
       }
     });
@@ -67,6 +67,8 @@ export default function LoginPage() {
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
+    if (loading) return;
+
     setError("");
     setMessage("");
 
@@ -77,7 +79,20 @@ export default function LoginPage() {
     }
 
     setLoading(true);
+    let didTimeout = false;
+    const timeoutId = window.setTimeout(() => {
+      didTimeout = true;
+      setLoading(false);
+      setError("Сервер долго отвечает. Попробуйте снова через несколько секунд.");
+    }, 15000);
+
     const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    window.clearTimeout(timeoutId);
+
+    if (didTimeout) {
+      return;
+    }
+
     setLoading(false);
 
     if (signInError) {
@@ -86,13 +101,14 @@ export default function LoginPage() {
     }
 
     if (data.user) {
-      await ensureUserSynced(data.user);
+      void ensureUserSynced(data.user);
     }
 
-    router.push("/dashboard");
+    router.replace("/dashboard");
   };
 
   const onMagicLink = async () => {
+    if (magicLoading) return;
     setError("");
     setMessage("");
 
