@@ -14,7 +14,7 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Apex CRM",
+  title: "CRM R1",
   description: "Современный CRM интерфейс на Next.js, shadcn UI, Framer Motion и Supabase.",
 };
 

@@ -116,7 +116,7 @@ export default function LoginPage() {
           <CardHeader className="space-y-4">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-secondary/35 px-3 py-1 text-xs text-muted-foreground">
               <BarChart3 className="h-3.5 w-3.5 text-primary" />
-              CRM Пространство
+              CRM R1
             </div>
             <div>
               <CardTitle className="font-display text-2xl">С возвращением</CardTitle>

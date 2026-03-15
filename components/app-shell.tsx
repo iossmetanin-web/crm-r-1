@@ -80,7 +80,7 @@ export function AppShell({ children }: AppShellProps) {
               <BarChart3 className="h-4 w-4" />
             </span>
             <div>
-              <p className="font-display text-sm font-semibold tracking-wide">Apex CRM</p>
+              <p className="font-display text-sm font-semibold tracking-wide">CRM R1</p>
               <p className="text-xs text-muted-foreground">Центр управления выручкой</p>
             </div>
           </Link>
@@ -113,7 +113,7 @@ export function AppShell({ children }: AppShellProps) {
               transition={{ type: "spring", stiffness: 280, damping: 30 }}
             >
               <div className="mb-6 flex items-center justify-between">
-                <p className="font-display text-sm font-semibold tracking-wide">Apex CRM</p>
+                <p className="font-display text-sm font-semibold tracking-wide">CRM R1</p>
                 <Button variant="ghost" size="icon" className="rounded-full" onClick={() => setOpen(false)}>
                   <X className="h-4 w-4" />
                 </Button>
