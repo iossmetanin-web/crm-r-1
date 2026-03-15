@@ -20,8 +20,8 @@ import { useEffect, useState } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { cn } from "@/lib/utils";
 import { UserMenu } from "@/components/user-menu";
+import { cn } from "@/lib/utils";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -46,13 +46,13 @@ function NavItems({ pathname, onNavigate }: { pathname: string; onNavigate?: () 
             href={item.href}
             onClick={onNavigate}
             className={cn(
-              "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-all duration-200",
+              "group flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors duration-150",
               isActive
                 ? "bg-primary/20 text-primary shadow-[0_10px_26px_-18px_hsl(var(--primary))]"
                 : "text-muted-foreground hover:bg-secondary/70 hover:text-foreground",
             )}
           >
-            <item.icon className={cn("h-4 w-4 transition-transform group-hover:scale-110", isActive && "text-primary")} />
+            <item.icon className={cn("h-4 w-4", isActive && "text-primary")} />
             <span className="font-medium">{item.label}</span>
           </Link>
         );
@@ -100,17 +100,18 @@ export function AppShell({ children }: AppShellProps) {
       <AnimatePresence>
         {open ? (
           <motion.div
-            className="fixed inset-0 z-50 bg-black/55 backdrop-blur-sm lg:hidden"
+            className="fixed inset-0 z-50 bg-black/55 lg:hidden"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
+            transition={{ duration: 0.14 }}
           >
             <motion.aside
               className="glass-panel absolute inset-y-0 left-0 w-[84%] max-w-xs rounded-r-3xl p-4"
-              initial={{ x: -60, opacity: 0 }}
+              initial={{ x: -28, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
-              exit={{ x: -60, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 280, damping: 30 }}
+              exit={{ x: -28, opacity: 0 }}
+              transition={{ duration: 0.16, ease: "easeOut" }}
             >
               <div className="mb-6 flex items-center justify-between">
                 <p className="font-display text-sm font-semibold tracking-wide">CRM R1</p>
@@ -147,19 +148,7 @@ export function AppShell({ children }: AppShellProps) {
           </div>
         </header>
 
-        <main className="px-4 pb-6 pt-4 md:px-6 md:pt-5">
-          <AnimatePresence mode="wait">
-            <motion.div
-              key={pathname}
-              initial={{ opacity: 0, y: 14 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -10 }}
-              transition={{ duration: 0.22, ease: "easeOut" }}
-            >
-              {children}
-            </motion.div>
-          </AnimatePresence>
-        </main>
+        <main className="px-4 pb-6 pt-4 md:px-6 md:pt-5">{children}</main>
       </div>
     </div>
   );

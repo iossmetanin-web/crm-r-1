@@ -1,5 +1,10 @@
 import { AppShell } from "@/components/app-shell";
+import { SessionGuard } from "@/components/session-guard";
 
 export default function WorkspaceLayout({ children }: { children: React.ReactNode }) {
-  return <AppShell>{children}</AppShell>;
+  return (
+    <SessionGuard>
+      <AppShell>{children}</AppShell>
+    </SessionGuard>
+  );
 }

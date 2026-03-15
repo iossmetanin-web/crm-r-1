@@ -1,8 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { ArrowRight, BarChart3, Loader2, Mail } from "lucide-react";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { FormEvent, useEffect, useState } from "react";
 
@@ -10,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { getSupabaseBrowserClient, hasSupabaseConfig } from "@/lib/supabase/client";
+import { ensureUserSynced } from "@/lib/supabase/sync-user";
 
 function translateSupabaseError(message: string) {
   const normalized = message.toLowerCase();
@@ -32,20 +31,38 @@ export default function LoginPage() {
   const [magicLoading, setMagicLoading] = useState(false);
 
   useEffect(() => {
-    const run = async () => {
-      const supabase = getSupabaseBrowserClient();
-      if (!supabase) return;
+    let mounted = true;
+    const supabase = getSupabaseBrowserClient();
+    if (!supabase) return;
 
+    const bootstrap = async () => {
       const {
         data: { session },
       } = await supabase.auth.getSession();
 
       if (session) {
-        router.replace("/dashboard");
+        await ensureUserSynced(session.user);
+        if (mounted) {
+          router.replace("/dashboard");
+        }
       }
     };
 
-    void run();
+    void bootstrap();
+
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange(async (event, session) => {
+      if (event === "SIGNED_IN" && session) {
+        await ensureUserSynced(session.user);
+        router.replace("/dashboard");
+      }
+    });
+
+    return () => {
+      mounted = false;
+      subscription.unsubscribe();
+    };
   }, [router]);
 
   const onSubmit = async (event: FormEvent<HTMLFormElement>) => {
@@ -60,12 +77,16 @@ export default function LoginPage() {
     }
 
     setLoading(true);
-    const { error: signInError } = await supabase.auth.signInWithPassword({ email, password });
+    const { data, error: signInError } = await supabase.auth.signInWithPassword({ email, password });
     setLoading(false);
 
     if (signInError) {
       setError(translateSupabaseError(signInError.message));
       return;
+    }
+
+    if (data.user) {
+      await ensureUserSynced(data.user);
     }
 
     router.push("/dashboard");
@@ -106,12 +127,7 @@ export default function LoginPage() {
   return (
     <div className="relative flex min-h-screen items-center justify-center overflow-hidden px-4 py-10">
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_15%_10%,rgba(56,189,248,0.25),transparent_36%),radial-gradient(circle_at_86%_30%,rgba(45,212,191,0.2),transparent_36%),radial-gradient(circle_at_55%_86%,rgba(59,130,246,0.18),transparent_34%)]" />
-      <motion.div
-        className="relative w-full max-w-md"
-        initial={{ opacity: 0, y: 24 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.45, ease: "easeOut" }}
-      >
+      <div className="relative w-full max-w-md">
         <Card className="glass-panel border-white/15">
           <CardHeader className="space-y-4">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-secondary/35 px-3 py-1 text-xs text-muted-foreground">
@@ -143,18 +159,12 @@ export default function LoginPage() {
                 required
               />
               <Button className="w-full" type="submit" disabled={loading}>
-              {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}
                 Войти
               </Button>
             </form>
 
-            <Button
-              type="button"
-              variant="outline"
-              className="w-full"
-              onClick={onMagicLink}
-              disabled={magicLoading}
-            >
+            <Button type="button" variant="outline" className="w-full" onClick={onMagicLink} disabled={magicLoading}>
               {magicLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mail className="mr-2 h-4 w-4" />}
               Отправить магическую ссылку
             </Button>
@@ -166,16 +176,9 @@ export default function LoginPage() {
             ) : null}
             {error ? <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">{error}</p> : null}
             {message ? <p className="rounded-xl bg-primary/10 px-3 py-2 text-xs text-primary">{message}</p> : null}
-
-            <p className="text-center text-xs text-muted-foreground">
-              Хотите сначала демо?{" "}
-              <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">
-                Открыть тестовый дашборд
-              </Link>
-            </p>
           </CardContent>
         </Card>
-      </motion.div>
+      </div>
     </div>
   );
 }
