@@ -11,6 +11,17 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { getSupabaseBrowserClient, hasSupabaseConfig } from "@/lib/supabase/client";
 
+function translateSupabaseError(message: string) {
+  const normalized = message.toLowerCase();
+
+  if (normalized.includes("invalid login credentials")) return "Неверный email или пароль.";
+  if (normalized.includes("email not confirmed")) return "Email не подтвержден.";
+  if (normalized.includes("user already registered")) return "Пользователь уже зарегистрирован.";
+  if (normalized.includes("network")) return "Ошибка сети. Проверьте подключение к интернету.";
+
+  return "Не удалось выполнить вход. Проверьте данные и попробуйте снова.";
+}
+
 export default function LoginPage() {
   const router = useRouter();
   const [email, setEmail] = useState("");
@@ -44,7 +55,7 @@ export default function LoginPage() {
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setError("Supabase credentials are missing in .env.local.");
+      setError("Переменные Supabase не найдены в .env.local.");
       return;
     }
 
@@ -53,7 +64,7 @@ export default function LoginPage() {
     setLoading(false);
 
     if (signInError) {
-      setError(signInError.message);
+      setError(translateSupabaseError(signInError.message));
       return;
     }
 
@@ -66,12 +77,12 @@ export default function LoginPage() {
 
     const supabase = getSupabaseBrowserClient();
     if (!supabase) {
-      setError("Supabase credentials are missing in .env.local.");
+      setError("Переменные Supabase не найдены в .env.local.");
       return;
     }
 
     if (!email) {
-      setError("Enter an email first to send a magic link.");
+      setError("Сначала введите email для отправки магической ссылки.");
       return;
     }
 
@@ -85,11 +96,11 @@ export default function LoginPage() {
     setMagicLoading(false);
 
     if (otpError) {
-      setError(otpError.message);
+      setError(translateSupabaseError(otpError.message));
       return;
     }
 
-    setMessage("Magic link sent. Check your inbox.");
+    setMessage("Магическая ссылка отправлена. Проверьте входящие.");
   };
 
   return (
@@ -105,11 +116,11 @@ export default function LoginPage() {
           <CardHeader className="space-y-4">
             <div className="inline-flex w-fit items-center gap-2 rounded-full border border-border/70 bg-secondary/35 px-3 py-1 text-xs text-muted-foreground">
               <BarChart3 className="h-3.5 w-3.5 text-primary" />
-              CRM Workspace
+              CRM Пространство
             </div>
             <div>
-              <CardTitle className="font-display text-2xl">Welcome back</CardTitle>
-              <CardDescription>Sign in to manage deals, clients, and team tasks.</CardDescription>
+              <CardTitle className="font-display text-2xl">С возвращением</CardTitle>
+              <CardDescription>Войдите, чтобы управлять сделками, клиентами и задачами команды.</CardDescription>
             </div>
           </CardHeader>
 
@@ -127,13 +138,13 @@ export default function LoginPage() {
                 type="password"
                 value={password}
                 onChange={(event) => setPassword(event.target.value)}
-                placeholder="Password"
+                placeholder="Пароль"
                 autoComplete="current-password"
                 required
               />
               <Button className="w-full" type="submit" disabled={loading}>
-                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}
-                Sign in
+              {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <ArrowRight className="mr-2 h-4 w-4" />}
+                Войти
               </Button>
             </form>
 
@@ -145,21 +156,21 @@ export default function LoginPage() {
               disabled={magicLoading}
             >
               {magicLoading ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Mail className="mr-2 h-4 w-4" />}
-              Send magic link
+              Отправить магическую ссылку
             </Button>
 
             {!hasSupabaseConfig ? (
               <p className="rounded-xl border border-destructive/30 bg-destructive/10 px-3 py-2 text-xs text-destructive">
-                Supabase environment variables are missing.
+                Переменные окружения Supabase отсутствуют.
               </p>
             ) : null}
             {error ? <p className="rounded-xl bg-destructive/10 px-3 py-2 text-xs text-destructive">{error}</p> : null}
             {message ? <p className="rounded-xl bg-primary/10 px-3 py-2 text-xs text-primary">{message}</p> : null}
 
             <p className="text-center text-xs text-muted-foreground">
-              Need a demo first?{" "}
+              Хотите сначала демо?{" "}
               <Link href="/dashboard" className="text-primary underline-offset-4 hover:underline">
-                Open preview dashboard
+                Открыть тестовый дашборд
               </Link>
             </p>
           </CardContent>

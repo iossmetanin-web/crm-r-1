@@ -37,25 +37,25 @@ export function UserMenu() {
       <DropdownMenuContent align="end" className="w-56">
         <DropdownMenuLabel className="space-y-1">
           <p className="text-sm font-semibold">Ava Reynolds</p>
-          <p className="text-xs font-normal text-muted-foreground">Head of Revenue</p>
+          <p className="text-xs font-normal text-muted-foreground">Руководитель отдела выручки</p>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={() => router.push("/settings")}>
           <UserRound className="mr-2 h-4 w-4" />
-          Profile
+          Профиль
         </DropdownMenuItem>
         <DropdownMenuItem onClick={() => router.push("/settings")}>
           <Settings className="mr-2 h-4 w-4" />
-          Preferences
+          Предпочтения
         </DropdownMenuItem>
         <DropdownMenuItem>
           <CreditCard className="mr-2 h-4 w-4" />
-          Billing
+          Оплата
         </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem onClick={onLogout}>
           <LogOut className="mr-2 h-4 w-4" />
-          Sign out
+          Выйти
         </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>

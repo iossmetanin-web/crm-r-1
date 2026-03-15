@@ -28,11 +28,11 @@ type AppShellProps = {
 };
 
 const navigation = [
-  { href: "/dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { href: "/deals", label: "Deals", icon: KanbanSquare },
-  { href: "/clients", label: "Clients", icon: Users },
-  { href: "/tasks", label: "Tasks", icon: CheckSquare },
-  { href: "/settings", label: "Settings", icon: Settings },
+  { href: "/dashboard", label: "Дашборд", icon: LayoutDashboard },
+  { href: "/deals", label: "Сделки", icon: KanbanSquare },
+  { href: "/clients", label: "Клиенты", icon: Users },
+  { href: "/tasks", label: "Задачи", icon: CheckSquare },
+  { href: "/settings", label: "Настройки", icon: Settings },
 ];
 
 function NavItems({ pathname, onNavigate }: { pathname: string; onNavigate?: () => void }) {
@@ -81,7 +81,7 @@ export function AppShell({ children }: AppShellProps) {
             </span>
             <div>
               <p className="font-display text-sm font-semibold tracking-wide">Apex CRM</p>
-              <p className="text-xs text-muted-foreground">Revenue command center</p>
+              <p className="text-xs text-muted-foreground">Центр управления выручкой</p>
             </div>
           </Link>
 
@@ -90,9 +90,9 @@ export function AppShell({ children }: AppShellProps) {
           <div className="mt-auto rounded-2xl border border-border/70 bg-secondary/35 p-4">
             <div className="mb-2 flex items-center gap-2 text-sm">
               <Sparkles className="h-4 w-4 text-accent" />
-              <p className="font-medium">Pipeline forecast</p>
+              <p className="font-medium">Прогноз воронки</p>
             </div>
-            <p className="text-xs text-muted-foreground">Projected close this month: $540k (+17%).</p>
+            <p className="text-xs text-muted-foreground">Прогноз закрытия в этом месяце: $540k (+17%).</p>
           </div>
         </div>
       </aside>
@@ -132,13 +132,13 @@ export function AppShell({ children }: AppShellProps) {
               size="icon"
               className="rounded-full lg:hidden"
               onClick={() => setOpen(true)}
-              aria-label="Open navigation"
+              aria-label="Открыть навигацию"
             >
               <Menu className="h-5 w-5" />
             </Button>
             <div className="relative w-full max-w-xl">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
-              <Input placeholder="Search deals, clients, notes..." className="rounded-full pl-9" />
+              <Input placeholder="Поиск по сделкам, клиентам, заметкам..." className="rounded-full pl-9" />
             </div>
             <div className="ml-auto flex items-center gap-1">
               <ThemeToggle />

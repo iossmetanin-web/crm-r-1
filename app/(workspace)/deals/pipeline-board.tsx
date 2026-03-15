@@ -32,6 +32,12 @@ function getPriorityVariant(priority: Deal["priority"]) {
   return "secondary" as const;
 }
 
+function getPriorityLabel(priority: Deal["priority"]) {
+  if (priority === "High") return "Высокий";
+  if (priority === "Medium") return "Средний";
+  return "Низкий";
+}
+
 function DealCard({ deal, dragOverlay = false }: { deal: Deal; dragOverlay?: boolean }) {
   return (
     <Card
@@ -45,7 +51,7 @@ function DealCard({ deal, dragOverlay = false }: { deal: Deal; dragOverlay?: boo
           <p className="font-medium">{deal.name}</p>
           <p className="text-xs text-muted-foreground">{deal.company}</p>
         </div>
-        <Badge variant={getPriorityVariant(deal.priority)}>{deal.priority}</Badge>
+        <Badge variant={getPriorityVariant(deal.priority)}>{getPriorityLabel(deal.priority)}</Badge>
       </div>
 
       <div className="grid gap-1 text-xs text-muted-foreground">
@@ -114,7 +120,7 @@ function PipelineColumn({ stage, deals }: { stage: (typeof pipelineStages)[numbe
           ))}
           {deals.length === 0 ? (
             <div className="rounded-xl border border-dashed border-border/80 py-8 text-center text-xs text-muted-foreground">
-              Drop deal here
+              Перетащите сделку сюда
             </div>
           ) : null}
         </div>
@@ -189,8 +195,8 @@ export function DealsBoard() {
     <section className="space-y-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Deals Pipeline</p>
-          <h1 className="font-display text-3xl font-semibold">Kanban Opportunity Board</h1>
+          <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Воронка сделок</p>
+          <h1 className="font-display text-3xl font-semibold">Канбан доска возможностей</h1>
         </div>
         <div className="flex flex-wrap gap-2">
           {totals.map((item) => (

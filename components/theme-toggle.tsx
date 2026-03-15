@@ -31,7 +31,7 @@ export function ThemeToggle() {
       variant="ghost"
       className="rounded-full"
       onClick={() => setTheme(isDark ? "light" : "dark")}
-      aria-label="Toggle color mode"
+      aria-label="Переключить тему"
     >
       {isDark ? <SunMedium className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
     </Button>

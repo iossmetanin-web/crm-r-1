@@ -17,6 +17,12 @@ function priorityVariant(priority: Task["priority"]) {
   return "secondary" as const;
 }
 
+function getPriorityLabel(priority: Task["priority"]) {
+  if (priority === "High") return "Высокий";
+  if (priority === "Medium") return "Средний";
+  return "Низкий";
+}
+
 export function TasksView() {
   const [tasks, setTasks] = useState<Task[]>(initialTasks);
   const [title, setTitle] = useState("");
@@ -41,7 +47,7 @@ export function TasksView() {
         title: title.trim(),
         assignee,
         priority: "Medium",
-        due: "Next week",
+        due: "Следующая неделя",
         completed: false,
       },
       ...current,
@@ -60,18 +66,18 @@ export function TasksView() {
   return (
     <section className="space-y-5">
       <div>
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Tasks</p>
-        <h1 className="font-display text-3xl font-semibold">Team Assignment Board</h1>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Задачи</p>
+        <h1 className="font-display text-3xl font-semibold">Доска назначения задач</h1>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.6fr_1fr]">
         <Card>
           <CardHeader>
-            <CardTitle>Task Queue</CardTitle>
+            <CardTitle>Очередь задач</CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <form className="grid gap-2 rounded-xl border border-border/70 bg-secondary/20 p-3 sm:grid-cols-[1fr_auto_auto]" onSubmit={onAddTask}>
-              <Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Create a new task..." />
+              <Input value={title} onChange={(event) => setTitle(event.target.value)} placeholder="Создать новую задачу..." />
               <select
                 value={assignee}
                 onChange={(event) => setAssignee(event.target.value)}
@@ -85,7 +91,7 @@ export function TasksView() {
               </select>
               <Button type="submit" className="sm:min-w-[120px]">
                 <Plus className="mr-2 h-4 w-4" />
-                Add task
+                Добавить задачу
               </Button>
             </form>
 
@@ -110,7 +116,7 @@ export function TasksView() {
                           "mt-0.5 h-5 w-5 rounded-full border transition-colors",
                           task.completed ? "border-primary bg-primary text-primary-foreground" : "border-border",
                         )}
-                        aria-label="Toggle task completion"
+                        aria-label="Изменить статус выполнения"
                       >
                         {task.completed ? <CheckCircle2 className="h-4 w-4" /> : null}
                       </button>
@@ -118,15 +124,15 @@ export function TasksView() {
                         <p className={cn("text-sm font-medium", task.completed && "text-muted-foreground line-through")}>
                           {task.title}
                         </p>
-                        <p className="text-xs text-muted-foreground">Due {task.due}</p>
+                        <p className="text-xs text-muted-foreground">Срок: {task.due}</p>
                       </div>
                     </div>
-                    <Badge variant={priorityVariant(task.priority)}>{task.priority}</Badge>
+                    <Badge variant={priorityVariant(task.priority)}>{getPriorityLabel(task.priority)}</Badge>
                   </div>
 
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <UserRound className="h-3.5 w-3.5" />
-                    <span>Assigned to</span>
+                    <span>Назначено:</span>
                     <select
                       value={task.assignee}
                       onChange={(event) => onAssign(task.id, event.target.value)}
@@ -147,33 +153,33 @@ export function TasksView() {
 
         <Card>
           <CardHeader>
-            <CardTitle>Workload Snapshot</CardTitle>
+            <CardTitle>Снимок загрузки</CardTitle>
           </CardHeader>
           <CardContent className="space-y-4">
             <div className="grid gap-2">
               <div className="rounded-xl border border-border/70 bg-secondary/20 p-3">
-                <p className="text-xs text-muted-foreground">Total Tasks</p>
+                <p className="text-xs text-muted-foreground">Всего задач</p>
                 <p className="text-2xl font-semibold">{stats.total}</p>
               </div>
               <div className="rounded-xl border border-border/70 bg-secondary/20 p-3">
-                <p className="text-xs text-muted-foreground">Open</p>
+                <p className="text-xs text-muted-foreground">Открыто</p>
                 <p className="text-2xl font-semibold">{stats.open}</p>
               </div>
               <div className="rounded-xl border border-border/70 bg-secondary/20 p-3">
-                <p className="text-xs text-muted-foreground">Completed</p>
+                <p className="text-xs text-muted-foreground">Выполнено</p>
                 <p className="text-2xl font-semibold">{stats.completed}</p>
               </div>
             </div>
 
             <div>
-              <p className="mb-2 text-sm font-medium">Assignment Load</p>
+              <p className="mb-2 text-sm font-medium">Распределение нагрузки</p>
               <div className="space-y-2 text-sm">
                 {teamMembers.map((member) => {
                   const memberTotal = tasks.filter((task) => task.assignee === member && !task.completed).length;
                   return (
                     <div key={member} className="flex items-center justify-between rounded-lg border border-border/60 bg-secondary/20 px-3 py-2">
                       <span>{member}</span>
-                      <span className="text-muted-foreground">{memberTotal} open</span>
+                      <span className="text-muted-foreground">{memberTotal} открыто</span>
                     </div>
                   );
                 })}

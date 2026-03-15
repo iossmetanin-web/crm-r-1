@@ -17,6 +17,18 @@ function statusBadgeVariant(status: string) {
   return "default" as const;
 }
 
+function getStatusLabel(status: string) {
+  if (status === "At Risk") return "Риск";
+  if (status === "New") return "Новый";
+  return "Активный";
+}
+
+function getTierLabel(tier: string) {
+  if (tier === "Enterprise") return "Корпоративный";
+  if (tier === "Growth") return "Рост";
+  return "Старт";
+}
+
 export function ClientsView() {
   const [query, setQuery] = useState("");
   const [selectedId, setSelectedId] = useState(clients[0]?.id ?? "");
@@ -34,20 +46,20 @@ export function ClientsView() {
   return (
     <section className="space-y-5">
       <div>
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Clients</p>
-        <h1 className="font-display text-3xl font-semibold">Account Directory</h1>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Клиенты</p>
+        <h1 className="font-display text-3xl font-semibold">База аккаунтов</h1>
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.05fr_1.4fr]">
         <Card className="overflow-hidden">
           <CardHeader className="space-y-3">
-            <CardTitle className="text-lg">Client List</CardTitle>
+            <CardTitle className="text-lg">Список клиентов</CardTitle>
             <div className="relative">
               <Search className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
               <Input
                 value={query}
                 onChange={(event) => setQuery(event.target.value)}
-                placeholder="Search clients"
+                placeholder="Поиск клиентов"
                 className="pl-9"
               />
             </div>
@@ -68,7 +80,7 @@ export function ClientsView() {
                   >
                     <div className="mb-1 flex items-center justify-between gap-2">
                       <p className="text-sm font-semibold">{client.name}</p>
-                      <Badge variant={statusBadgeVariant(client.status)}>{client.status}</Badge>
+                      <Badge variant={statusBadgeVariant(client.status)}>{getStatusLabel(client.status)}</Badge>
                     </div>
                     <p className="text-xs text-muted-foreground">{client.company}</p>
                   </button>
@@ -88,8 +100,8 @@ export function ClientsView() {
                     <p className="text-sm text-muted-foreground">{selectedClient.company}</p>
                   </div>
                   <div className="flex gap-2">
-                    <Badge variant={statusBadgeVariant(selectedClient.status)}>{selectedClient.status}</Badge>
-                    <Badge variant="outline">{selectedClient.tier}</Badge>
+                    <Badge variant={statusBadgeVariant(selectedClient.status)}>{getStatusLabel(selectedClient.status)}</Badge>
+                    <Badge variant="outline">{getTierLabel(selectedClient.tier)}</Badge>
                   </div>
                 </div>
               </CardHeader>
@@ -98,28 +110,28 @@ export function ClientsView() {
                   <div className="rounded-xl border border-border/60 bg-secondary/25 p-3 text-sm">
                     <p className="mb-1 inline-flex items-center gap-2 text-muted-foreground">
                       <Mail className="h-4 w-4" />
-                      Email
+                      Эл. почта
                     </p>
                     <p>{selectedClient.email}</p>
                   </div>
                   <div className="rounded-xl border border-border/60 bg-secondary/25 p-3 text-sm">
                     <p className="mb-1 inline-flex items-center gap-2 text-muted-foreground">
                       <Phone className="h-4 w-4" />
-                      Phone
+                      Телефон
                     </p>
                     <p>{selectedClient.phone}</p>
                   </div>
                   <div className="rounded-xl border border-border/60 bg-secondary/25 p-3 text-sm">
                     <p className="mb-1 inline-flex items-center gap-2 text-muted-foreground">
                       <MapPin className="h-4 w-4" />
-                      Location
+                      Локация
                     </p>
                     <p>{selectedClient.location}</p>
                   </div>
                   <div className="rounded-xl border border-border/60 bg-secondary/25 p-3 text-sm">
                     <p className="mb-1 inline-flex items-center gap-2 text-muted-foreground">
                       <Wallet className="h-4 w-4" />
-                      Annual Value
+                      Годовая выручка
                     </p>
                     <p>{formatCurrency(selectedClient.value)}</p>
                   </div>
@@ -128,18 +140,18 @@ export function ClientsView() {
                 <div className="rounded-xl border border-border/60 bg-secondary/20 p-4">
                   <p className="mb-2 inline-flex items-center gap-2 text-sm font-medium">
                     <Building2 className="h-4 w-4 text-primary" />
-                    Profile Notes
+                    Заметки по профилю
                   </p>
                   <p className="text-sm text-muted-foreground">{selectedClient.notes}</p>
                 </div>
 
                 <div>
-                  <p className="mb-3 text-sm font-medium">Timeline</p>
+                  <p className="mb-3 text-sm font-medium">Хронология</p>
                   <div className="space-y-2 text-sm">
                     {[
-                      "Kickoff completed with success team",
-                      "Contract addendum signed for expansion seats",
-                      "Quarterly business review scheduled next week",
+                      "Кик-офф с командой сопровождения завершен",
+                      "Подписано допсоглашение на расширение лицензий",
+                      "QBR запланирован на следующую неделю",
                     ].map((item) => (
                       <div key={item} className="rounded-lg border border-border/50 bg-secondary/15 p-3">
                         {item}

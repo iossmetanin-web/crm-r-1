@@ -52,8 +52,8 @@ export function SettingsView() {
   return (
     <section className="space-y-5">
       <div>
-        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Settings</p>
-        <h1 className="font-display text-3xl font-semibold">Workspace Preferences</h1>
+        <p className="text-xs uppercase tracking-[0.28em] text-muted-foreground">Настройки</p>
+        <h1 className="font-display text-3xl font-semibold">Параметры рабочего пространства</h1>
       </div>
 
       <div className="grid gap-4 lg:grid-cols-2">
@@ -61,17 +61,17 @@ export function SettingsView() {
           <CardHeader>
             <CardTitle className="inline-flex items-center gap-2">
               <UserCircle2 className="h-5 w-5 text-primary" />
-              Profile
+              Профиль
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <div className="grid gap-3 sm:grid-cols-2">
-              <Input defaultValue="Ava Reynolds" placeholder="Full name" />
-              <Input defaultValue="Head of Revenue" placeholder="Role" />
+              <Input defaultValue="Ава Рейнольдс" placeholder="Полное имя" />
+              <Input defaultValue="Руководитель отдела выручки" placeholder="Должность" />
             </div>
-            <Input defaultValue="ava@apexcrm.com" placeholder="Email" />
-            <Textarea defaultValue="Focus: enterprise growth, account strategy, and forecast quality." />
-            <Button className="w-full sm:w-auto">Save profile</Button>
+            <Input defaultValue="ava@apexcrm.com" placeholder="Эл. почта" />
+            <Textarea defaultValue="Фокус: рост enterprise-сегмента, стратегия аккаунтов и точность прогнозов." />
+            <Button className="w-full sm:w-auto">Сохранить профиль</Button>
           </CardContent>
         </Card>
 
@@ -79,25 +79,25 @@ export function SettingsView() {
           <CardHeader>
             <CardTitle className="inline-flex items-center gap-2">
               <Bell className="h-5 w-5 text-primary" />
-              Notifications
+              Уведомления
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <ToggleRow
-              label="Product updates"
-              description="Release notes and feature rollouts"
+              label="Обновления продукта"
+              description="Релиз-ноты и запуск новых функций"
               value={productUpdates}
               onChange={() => setProductUpdates((current) => !current)}
             />
             <ToggleRow
-              label="Task reminders"
-              description="Daily reminders for assigned actions"
+              label="Напоминания о задачах"
+              description="Ежедневные напоминания по назначенным задачам"
               value={taskAlerts}
               onChange={() => setTaskAlerts((current) => !current)}
             />
             <ToggleRow
-              label="Weekly digest"
-              description="Monday summary for pipeline and team velocity"
+              label="Еженедельный дайджест"
+              description="Сводка по воронке и скорости команды по понедельникам"
               value={weeklyDigest}
               onChange={() => setWeeklyDigest((current) => !current)}
             />
@@ -108,20 +108,20 @@ export function SettingsView() {
           <CardHeader>
             <CardTitle className="inline-flex items-center gap-2">
               <Shield className="h-5 w-5 text-primary" />
-              Security
+              Безопасность
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
             <ToggleRow
-              label="SSO enforcement"
-              description="Require Google or Microsoft SSO login"
+              label="Обязательный SSO"
+              description="Требовать вход через Google или Microsoft SSO"
               value={ssoEnabled}
               onChange={() => setSsoEnabled((current) => !current)}
             />
             <div className="rounded-xl border border-border/60 bg-secondary/20 p-3 text-sm text-muted-foreground">
-              Last login from San Francisco, CA on Mar 15 at 09:26.
+              Последний вход: Сан-Франциско, CA, 15 марта в 09:26.
             </div>
-            <Button variant="outline">Rotate API token</Button>
+            <Button variant="outline">Обновить API-токен</Button>
           </CardContent>
         </Card>
 
@@ -129,14 +129,14 @@ export function SettingsView() {
           <CardHeader>
             <CardTitle className="inline-flex items-center gap-2">
               <MoonStar className="h-5 w-5 text-primary" />
-              Appearance
+              Внешний вид
             </CardTitle>
           </CardHeader>
           <CardContent className="space-y-3">
-            <p className="text-sm text-muted-foreground">Switch between dark and light modes anytime.</p>
+            <p className="text-sm text-muted-foreground">Переключайте светлую и темную тему в любой момент.</p>
             <ThemeToggle />
             <div className="rounded-xl border border-border/60 bg-secondary/20 p-3 text-sm text-muted-foreground">
-              Typography: Manrope + Space Grotesk
+              Типографика: Manrope + Space Grotesk
             </div>
           </CardContent>
         </Card>

@@ -16,73 +16,73 @@ export const pipelineStages: Array<{
   subtitle: string;
   tint: string;
 }> = [
-  { id: "lead", title: "Lead", subtitle: "Early discovery", tint: "from-sky-400/25 to-sky-600/10" },
-  { id: "qualified", title: "Qualified", subtitle: "Need validated", tint: "from-indigo-400/25 to-indigo-600/10" },
-  { id: "proposal", title: "Proposal", subtitle: "Commercial terms", tint: "from-cyan-400/25 to-cyan-600/10" },
-  { id: "won", title: "Won", subtitle: "Closed revenue", tint: "from-emerald-400/25 to-emerald-600/10" },
+  { id: "lead", title: "Лид", subtitle: "Первичный интерес", tint: "from-sky-400/25 to-sky-600/10" },
+  { id: "qualified", title: "Квалификация", subtitle: "Потребность подтверждена", tint: "from-indigo-400/25 to-indigo-600/10" },
+  { id: "proposal", title: "Предложение", subtitle: "Согласование условий", tint: "from-cyan-400/25 to-cyan-600/10" },
+  { id: "won", title: "Выиграно", subtitle: "Закрытая выручка", tint: "from-emerald-400/25 to-emerald-600/10" },
 ];
 
 export const initialDeals: Record<StageId, Deal[]> = {
   lead: [
     {
       id: "deal-1",
-      name: "Renewal Expansion",
+      name: "Расширение продления",
       company: "Northline Labs",
       owner: "Ava Martin",
       value: 42000,
       priority: "High",
-      dueDate: "Mar 24",
+      dueDate: "24 мар",
     },
     {
       id: "deal-2",
-      name: "Onboarding Suite",
+      name: "Пакет онбординга",
       company: "Lumen Retail",
       owner: "Noah Brooks",
       value: 18000,
       priority: "Medium",
-      dueDate: "Mar 27",
+      dueDate: "27 мар",
     },
   ],
   qualified: [
     {
       id: "deal-3",
-      name: "AI Analytics Upgrade",
+      name: "Апгрейд AI-аналитики",
       company: "Pulse Dynamics",
       owner: "Olivia Chen",
       value: 76000,
       priority: "High",
-      dueDate: "Mar 21",
+      dueDate: "21 мар",
     },
     {
       id: "deal-4",
-      name: "Service Retainer",
+      name: "Сервисный ретейнер",
       company: "Mercury Studio",
       owner: "Ethan Ross",
       value: 25500,
       priority: "Low",
-      dueDate: "Apr 3",
+      dueDate: "3 апр",
     },
   ],
   proposal: [
     {
       id: "deal-5",
-      name: "Enterprise Rollout",
+      name: "Корпоративное внедрение",
       company: "Harbor Finance",
       owner: "Mia Patel",
       value: 138000,
       priority: "High",
-      dueDate: "Mar 19",
+      dueDate: "19 мар",
     },
   ],
   won: [
     {
       id: "deal-6",
-      name: "Growth Retainer",
+      name: "Ретейнер роста",
       company: "Atlas Mobility",
       owner: "Leo Kim",
       value: 92000,
       priority: "Medium",
-      dueDate: "Closed",
+      dueDate: "Закрыто",
     },
   ],
 };
@@ -110,8 +110,8 @@ export const clients: Client[] = [
     email: "sophia@northline.com",
     phone: "+1 (415) 555-0193",
     value: 184000,
-    location: "San Francisco, CA",
-    notes: "Prefers weekly status notes and release previews every Friday.",
+    location: "Сан-Франциско, CA",
+    notes: "Предпочитает еженедельные статус-апдейты и предпросмотр релизов по пятницам.",
   },
   {
     id: "client-2",
@@ -122,8 +122,8 @@ export const clients: Client[] = [
     email: "j.carter@pulse.io",
     phone: "+1 (646) 555-0131",
     value: 76000,
-    location: "New York, NY",
-    notes: "Concerned about onboarding speed for new sales reps.",
+    location: "Нью-Йорк, NY",
+    notes: "Беспокоится о скорости онбординга новых менеджеров по продажам.",
   },
   {
     id: "client-3",
@@ -134,8 +134,8 @@ export const clients: Client[] = [
     email: "mila@harborfinance.com",
     phone: "+1 (617) 555-0159",
     value: 138000,
-    location: "Boston, MA",
-    notes: "Requires security review on every quarter close.",
+    location: "Бостон, MA",
+    notes: "Требует обзор безопасности на каждом квартальном закрытии.",
   },
   {
     id: "client-4",
@@ -146,8 +146,8 @@ export const clients: Client[] = [
     email: "daniel.quinn@lumen.co",
     phone: "+1 (303) 555-0128",
     value: 24000,
-    location: "Denver, CO",
-    notes: "Needs integration with POS and Shopify migration support.",
+    location: "Денвер, CO",
+    notes: "Нужна интеграция с POS и поддержка миграции Shopify.",
   },
 ];
 
@@ -165,33 +165,33 @@ export const teamMembers = ["Ava", "Noah", "Olivia", "Mia", "Leo"];
 export const initialTasks: Task[] = [
   {
     id: "task-1",
-    title: "Prepare Q2 renewal proposal for Northline Labs",
+    title: "Подготовить предложение по продлению Q2 для Northline Labs",
     assignee: "Ava",
     priority: "High",
-    due: "Mar 18",
+    due: "18 мар",
     completed: false,
   },
   {
     id: "task-2",
-    title: "Follow up on security questionnaire with Harbor Finance",
+    title: "Сделать фоллоу-ап по анкете безопасности с Harbor Finance",
     assignee: "Olivia",
     priority: "Medium",
-    due: "Mar 20",
+    due: "20 мар",
     completed: false,
   },
   {
     id: "task-3",
-    title: "Schedule onboarding workshop for Lumen Retail team",
+    title: "Запланировать воркшоп по онбордингу для команды Lumen Retail",
     assignee: "Noah",
     priority: "Low",
-    due: "Mar 25",
+    due: "25 мар",
     completed: true,
   },
 ];
 
 export const dashboardMetrics = [
-  { label: "Revenue in Pipeline", value: "$356K", trend: "+12.4%" },
-  { label: "Active Deals", value: "18", trend: "+4 this week" },
-  { label: "Conversion Rate", value: "32%", trend: "+2.1 pts" },
-  { label: "Tasks Due Today", value: "7", trend: "2 overdue" },
+  { label: "Выручка в воронке", value: "$356K", trend: "+12.4%" },
+  { label: "Активные сделки", value: "18", trend: "+4 за неделю" },
+  { label: "Конверсия", value: "32%", trend: "+2.1 п.п." },
+  { label: "Задачи на сегодня", value: "7", trend: "2 просрочено" },
 ];
